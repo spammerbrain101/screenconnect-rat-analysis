@@ -1,0 +1,23 @@
+/* API Hash Resolution Table - ROR-13 hashes
+ *
+ * Format: hash = module!function
+ * Module hashes use UTF-16LE + tolower
+ * Function hashes use ASCII
+ */
+
+Functions Summary - ScreenConnect Patcher V3
+============================================
+
+Packer Stub (from original packed binary):
+  0x00401000  entry                    size=13     Original entry -> call unpacker -> ExitProcess
+  0x0053DFEA  FUN_0053dfea            size=1121   Unpacker: anti-analysis, XOR decode, CreateThread
+  0x0053E46D  FUN_0053e46d            size=3319   Anti-analysis checks (hostname, path, sandbox)
+
+Unpacked Payload (after XOR decode):
+  0x00401000  entry                    size=626    Main: load DLLs, extract files, deploy, execute
+  0x00401272  FUN_00401272            size=244    Hash-based API resolver (PEB walk + ROR-13 hash)
+  0x00401366  FUN_00401366            size=153    LZNT1 decompression via RtlDecompressBuffer
+  0x004013FF  FUN_004013ff            size=1117   File deployment (write to special folders + ShellExecuteW)
+
+Total real functions decompiled: 7
+(3 packer stub + 4 unpacked payload)
